@@ -2,7 +2,10 @@
 title: tech
 ---
 
-# test
-test
-1. test
-2. test
+# Tech Projects
+
+List of tech projects!
+
+1. to be filled
+
+2. : )

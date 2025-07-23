@@ -2,9 +2,10 @@
 title: art
 ---
 
-# test
-test
+# Art Projects
 
-1. test
+List of art projects.
 
-2. test
+1. mona lisa
+
+2. tripe shrimp
