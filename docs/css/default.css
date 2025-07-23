@@ -1,15 +1,7 @@
-/* does github pages rly want ../.. :( */
-@font-face {
-  font-family: "JetBrainsMono-Italic";
-  src: url("../../fonts/JetBrainsMono-Italic.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: "JetBrainsMono";
-  src: url("../../fonts/JetBrainsMono.ttf") format("truetype");
-  font-weight: 100 900;
+.jetbrains-mono-base {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 550;
   font-style: normal;
 }
 
@@ -20,7 +12,7 @@ html {
 body {
   font-size: 1rem;
   color: #000;
-  font-family: "JetBrainsMono";
+  font-family: "JetBrains Mono";
 }
 
 header {
