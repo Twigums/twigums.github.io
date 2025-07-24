@@ -1,0 +1,26 @@
+<header>
+    <div class = "logo">
+        <a href = "/">
+            twi
+        </a>
+    </div>
+
+    <button class = "hamburger" id = "hamburger-btn" aria-label = "Menu">
+        ☰
+    </button>
+
+    <nav id = "nav-menu">
+        <a href = "/">home</a>
+        <a href = "/tech.html">tech</a>
+        <a href = "/art.html">art</a>
+        <a href = "/blog.html">blog</a>
+        <a href = "/contact.html">contact</a>
+    </nav>
+
+    <script>
+        document.getElementById("hamburger-btn").addEventListener("click", function () {
+            const nav = document.getElementById("nav-menu");
+            nav.classList.toggle("active");
+        });
+    </script>
+</header>

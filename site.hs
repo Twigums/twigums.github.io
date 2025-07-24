@@ -1,75 +1,100 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend)
-import           Data.Maybe (fromMaybe)
-import           Control.Monad (forM_)
-import qualified Data.Text as T
+import              Data.Monoid (mappend)
+import              Data.Maybe (fromMaybe)
+import              Control.Monad (forM_)
+import qualified    Data.Text as T
+import              System.FilePath ((</>))
 
-import           Hakyll
-import           Slug (toSlug)
+import              Hakyll
+import              Slug (toSlug)
 
 --------------------------------------------------------------------------------
 root :: String
-root = "https://blog.com"
+root = "https://twigums.github.io"
+
+path_to_template :: FilePath
+path_to_template = "src/templates/"
+
+path_to_blogs :: FilePath
+path_to_blogs = "src/blogs"
+
+path_to_tabs :: [FilePath]
+path_to_tabs = [
+    "src/tabs/home.md",
+    "src/tabs/tech.md",
+    "src/tabs/art.md",
+    "src/tabs/blog.md",
+    "src/tabs/contact.md"
+    ]
+
+makePattern :: FilePath -> FilePath -> Pattern
+makePattern path1 path2 = fromGlob (path1 </> path2)
+
+makeIdentifier :: FilePath -> FilePath -> Identifier
+makeIdentifier path1 path2 = fromFilePath (path1 </> path2)
 
 main :: IO ()
 main = hakyllWith config $ do
+    match (makePattern path_to_template "*") $ compile templateBodyCompiler
+
     forM_ [
         "images/*",
-        "css/*",
-        "fonts/*"
+        "src/css/*"
         ] $ \f -> match f $ do
-        route   idRoute
+        route   $ gsubRoute "src/" (const "")
         compile copyFileCompiler
 
-    match (fromList [
-        "src/tech.md",
-        "src/art.md",
-        "src/blog.md",
-        "src/contact.md"
-        ]) $ do
-        route   $ gsubRoute "src/" (const "") `composeRoutes` setExtension "html"
+    match "src/tabs/home.md" $ do
+        route   $ constRoute "index.html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" defaultContext
+            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")   defaultContext
             >>= relativizeUrls
 
-    match "posts/*" $ do
+    match "src/tabs/blog.md" $ do
+        route   $ gsubRoute "src/tabs/" (const "") `composeRoutes` setExtension "html"
+        compile $ do
+            blogs <- recentFirst =<< loadAll (makePattern path_to_blogs "*")
+            let indexCtx =
+                    listField "blogs" postCtx (return blogs) <>
+                    defaultContext
+
+            pandocCompiler
+                >>= applyAsTemplate indexCtx
+                >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")  indexCtx
+                >>= relativizeUrls
+
+    match (fromList [
+        "src/tabs/tech.md",
+        "src/tabs/art.md",
+        "src/tabs/contact.md"
+        ]) $ do
+        route   $ gsubRoute "src/tabs/" (const "") `composeRoutes` setExtension "html"
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")   defaultContext
+            >>= relativizeUrls
+
+    match (makePattern path_to_blogs "*") $ do
         let ctx = constField "type" "article" <> postCtx
 
-        route $ metadataRoute titleRoute
+        route   $ metadataRoute titleRoute
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    ctx
+            >>= loadAndApplyTemplate (makeIdentifier path_to_template "blog_post.html")     ctx
             >>= saveSnapshot "content"
-            >>= loadAndApplyTemplate "templates/default.html" ctx
+            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")  ctx
             >>= relativizeUrls
 
     create ["sitemap.xml"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
-            singlePages <- loadAll (fromList ["about.rst", "contact.markdown"])
-            let pages = posts <> singlePages
+            blogs <- recentFirst =<< loadAll (makePattern path_to_blogs "*")
+            singlePages <- loadAll (fromList $ map (makeIdentifier "") path_to_tabs)
+            let pages = blogs <> singlePages
                 sitemapCtx =
                     constField "root" root <>
                     listField "pages" postCtx (return pages)
             makeItem ""
-                >>= loadAndApplyTemplate "templates/sitemap.xml" sitemapCtx
-
-    match "index.html" $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
-            let indexCtx =
-                    listField "posts" postCtx (return posts) <>
-                    defaultContext
-
-            getResourceBody
-                >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" indexCtx
-                >>= relativizeUrls
-
-    match "templates/*" $ compile templateBodyCompiler
-
+                >>= loadAndApplyTemplate (makeIdentifier path_to_template "sitemap.xml")   sitemapCtx
 
 config :: Configuration
 config = defaultConfiguration
