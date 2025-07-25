@@ -82,7 +82,7 @@ main = hakyllWith config $ do
     match (makePattern path_to_blogs "*") $ do
         let ctx = constField "type" "article" <> postCtx
 
-        route   $ metadataRoute titleRoute
+        route   $ metadataRoute (titleRoute "blogs/")
         compile $ pandocCompiler
             >>= loadAndApplyTemplate (makeIdentifier path_to_template "blog_post.html")     ctx
             >>= saveSnapshot "content"
@@ -107,12 +107,12 @@ config = defaultConfiguration
         destinationDirectory = "docs"
     }
 
-titleRoute :: Metadata -> Routes
-titleRoute = constRoute . fileNameFromTitle
+titleRoute :: FilePath -> Metadata -> Routes
+titleRoute parent = constRoute . (fileNameFromTitle parent)
 
 -- turn title into Text, slugify, then convert it back into a string with ".html"
-fileNameFromTitle :: Metadata -> FilePath
-fileNameFromTitle = ("posts/" ++) . T.unpack . (`T.append` ".html") . toSlug . T.pack . getTitleFromMeta
+fileNameFromTitle :: FilePath -> Metadata -> FilePath
+fileNameFromTitle parent = (parent ++) . T.unpack . (`T.append` ".html") . toSlug . T.pack . getTitleFromMeta
 
 -- gets the title using lookupString from Metadata
 -- returns either the title or "no title" as a string

@@ -14,4 +14,4 @@ Hi! My name is <mark>twi</mark> (she/her). I am a **Data Scientist** by day and 
 \- B.S. in Chemical Engineering
 
 
-Feel free to [reach out to me](/contact.html) to receive a detailed CV.
+Feel free to [reach out to me](/contact/) to receive a detailed CV.
