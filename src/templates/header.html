@@ -5,22 +5,19 @@
         </a>
     </div>
 
-    <button class = "hamburger" id = "hamburger-btn" aria-label = "Menu">
-        ☰
+    <button class = "hamburger" id = "hamburger-button" aria-label = "Menu">
+        <img src = "/images/menu.svg"
+            id = "menu-icon"
+            alt = "Menu"
+        />
     </button>
 
     <nav id = "nav-menu">
         <a href = "/">home</a>
-        <a href = "/tech.html">tech</a>
-        <a href = "/art.html">art</a>
-        <a href = "/blog.html">blog</a>
-        <a href = "/contact.html">contact</a>
+        <a href = "/tech/">tech</a>
+        <a href = "/art/">art</a>
+        <a href = "/blog/">blog</a>
+        <a href = "/contact/">contact</a>
     </nav>
 
-    <script>
-        document.getElementById("hamburger-btn").addEventListener("click", function () {
-            const nav = document.getElementById("nav-menu");
-            nav.classList.toggle("active");
-        });
-    </script>
 </header>

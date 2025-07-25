@@ -7,25 +7,58 @@
         <title>twi - $title$</title>
         $if(author)$
             <meta name = "author" content = "$author$">
+
         $endif$
 
         $if(keywords)$
             <meta name = "keywords" content = "$keywords$">
+
         $endif$
 
-        <link rel = "stylesheet" href = "/css/default.css" />
-        <link rel = "preconnect" href = "https://fonts.googleapis.com">
-        <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
-        <link href = "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel = "stylesheet">
+        $partial("src/templates/imports.html")$
+        <script>
+          (function () {
+            const theme = localStorage.getItem("theme");
+            if (theme === "dark") {
+              document.documentElement.classList.add("dark-mode");
+            }
+          })();
+        </script>
+
     </head>
+
     <body>
 
         $partial("src/templates/header.html")$
 
+        <div class = "dark-mode-container">
+            <button class = "dark-mode-button" onclick = "toggleDarkMode()">
+                <img src = "/images/moon.svg"
+                    id = "theme-icon"
+                    style = "height = 1.5rem;"
+                    alt = "Dark Mode"
+                />
+            </button>
+        </div>
+
         <main role = "main">
+
             $body$
+
         </main>
 
         $partial("src/templates/footer.html")$
+
+        <script>
+          (function() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+              document.documentElement.classList.add('dark-mode');
+            }
+          })();
+        </script>
+
+        <script src = "/js/main.js"></script>
+
     </body>
 </html>

@@ -1,8 +1,10 @@
 :root {
   --base-color: #f7f3f2;
+  --negative-color: #272525;
   --base-text-color: #161616;
   --negative-text-color: #f7f3f2;
-  --highlight-color: #785ef0;
+  --base-highlight-color: #785ef0;
+  --negative-highlight-color: #d4bbff;
 }
 
 .jetbrains-mono-base {
@@ -12,9 +14,43 @@
   font-style: normal;
 }
 
+.atkinson-hyperlegible-regular {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 550;
+  font-style: normal;
+}
+
+.atkinson-hyperlegible-bold {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.atkinson-hyperlegible-regular-italic {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 550;
+  font-style: italic;
+}
+
+.atkinson-hyperlegible-bold-italic {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
 .hamburger {
   display: none;
-  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dark-mode-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: -0.5rem ;
+}
+.dark-mode-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -31,8 +67,54 @@ body {
   font-family: "JetBrains Mono";
 }
 
+html.dark-mode {
+  background: var(--negative-color);
+  color: var(--negative-text-color);
+}
+
+html.dark-mode header {
+  border-bottom: 0.1rem solid var(--negative-text-color);
+}
+
+html.dark-mode body {
+  background-color: var(--negative-color);
+  color: var(--negative-text-color);
+}
+
+html.dark-mode footer {
+  border-top: 0.1rem solid var(--negative-text-color);
+}
+
+html.dark-mode nav a,
+html.dark-mode nav a::after {
+  color: var(--negative-text-color);
+}
+
+html.dark-mode nav a:hover,
+html.dark-mode mark {
+  background-color: var(--negative-highlight-color);
+  color: var(--base-text-color);
+}
+
+html.dark-mode a {
+  color: var(--negative-highlight-color);
+  text-decoration-color: var(--negative-highlight-color);
+}
+
+html.dark-mode a:hover {
+  color: var(--base-text-color);
+  text-decoration-color: var(--base-text-color);
+  background-color: var(--negative-highlight-color);
+}
+
+a:hover {
+  color: var(--negative-text-color);
+  text-decoration-color: var(--negative-text-color);
+  background-color: var(--base-highlight-color);
+}
+
 header {
-  border-bottom: 0.1rem solid #000;
+  border-bottom: 0.1rem solid var(--base-text-color);
   position: relative;
 }
 
@@ -48,7 +130,7 @@ nav a {
   text-decoration: none;
   text-transform: lowercase;
   position: relative;
-  padding: 0 0.6rem;
+  padding: 0 0.1rem;
 }
 
 nav a::after {
@@ -64,7 +146,7 @@ nav a:last-child::after {
 }
 
 nav a:hover {
-  background-color: var(--highlight-color);
+  background-color: var(--base-highlight-color);
   color: var(--negative-text-color);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -75,10 +157,38 @@ nav a:hover {
   gap: 1rem;
 }
 
+#email {
+  color: var(--base-highlight-color);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+html.dark-mode #email {
+  color: var(--negative-highlight-color);
+}
+
+a {
+  color: var(--base-highlight-color);
+  text-decoration: underline;
+  text-decoration-color: var(--base-highlight-color);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a:hover {
+  color: var(--negative-text-color);
+  text-decoration-color: var(--negative-text-color);
+  background-color: var(--base-highlight-color);
+}
+
+footer a:hover {
+  background-color: transparent !important;
+  color: inherit;
+}
+
 footer {
   margin-top: 3rem;
   padding: 1.2rem 0;
-  border-top: 0.1rem solid #000;
+  border-top: 0.1rem solid var(--base-text-color);
   font-size: 1.2rem;
 }
 
@@ -91,7 +201,7 @@ h2 {
 }
 
 mark {
-  background-color: var(--highlight-color);
+  background-color: var(--base-highlight-color);
   color: var(--negative-text-color);
 }
 
@@ -113,7 +223,7 @@ article .header {
     padding: 0 5%;
   }
   header {
-    margin: 4.2rem 0;
+    margin: 1.5rem 0;
   }
   nav {
     margin: 0 auto 3rem;
@@ -133,6 +243,9 @@ article .header {
     display: block;
     line-height: 1.6;
   }
+  nav a:hover {
+    transition: background-color 0s, color 0s;
+  }
 }
 
 @media (min-width: 320px) {
@@ -142,7 +255,7 @@ article .header {
     padding: 0 5%;
   }
   header {
-    margin: 4.2rem 0;
+    margin: 1.5rem 0;
   }
   nav {
     margin: 0 auto 3rem;
@@ -163,6 +276,12 @@ article .header {
     display: inline;
     margin: 0 0.6rem;
   }
+  nav a:hover {
+    transition: background-color 0s, color 0s;
+  }
+  a {
+    transition: background-color 0s, color 0s;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -172,7 +291,7 @@ article .header {
     padding: 0;
   }
   header {
-    margin: 0 0 3rem;
+    margin: 0 0 0.6rem;
     padding: 1.2rem 0;
   }
   nav {
@@ -213,11 +332,16 @@ article .header {
     top: 4.5rem;
     right: 1rem;
     background: var(--base-color);
-    border: 1px solid #000;
+    border: 1px solid var(--base-text-color);
     padding: 1rem;
     width: 60%;
     max-width: 250px;
     z-index: 1000;
+  }
+
+  html.dark-mode #nav-menu {
+    background: var(--negative-color);
+    border: 1px solid var(--negative-text-color);
   }
 
   #nav-menu.active {
@@ -233,5 +357,3 @@ article .header {
     content: "";
   }
 }
-
-

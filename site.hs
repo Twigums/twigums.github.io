@@ -40,7 +40,8 @@ main = hakyllWith config $ do
 
     forM_ [
         "images/*",
-        "src/css/*"
+        "src/css/*",
+        "src/js/*"
         ] $ \f -> match f $ do
         route   $ gsubRoute "src/" (const "")
         compile copyFileCompiler
@@ -52,7 +53,9 @@ main = hakyllWith config $ do
             >>= relativizeUrls
 
     match "src/tabs/blog.md" $ do
-        route   $ gsubRoute "src/tabs/" (const "") `composeRoutes` setExtension "html"
+        route   $ gsubRoute "src/tabs/" (const "") `composeRoutes`
+                  gsubRoute "\\.md$" (const "/index.html")
+
         compile $ do
             blogs <- recentFirst =<< loadAll (makePattern path_to_blogs "*")
             let indexCtx =
@@ -69,9 +72,11 @@ main = hakyllWith config $ do
         "src/tabs/art.md",
         "src/tabs/contact.md"
         ]) $ do
-        route   $ gsubRoute "src/tabs/" (const "") `composeRoutes` setExtension "html"
+        route   $ gsubRoute "src/tabs/" (const "") `composeRoutes` 
+                  gsubRoute "\\.md$" (const "/index.html")
+
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")   defaultContext
+            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html") defaultContext
             >>= relativizeUrls
 
     match (makePattern path_to_blogs "*") $ do
