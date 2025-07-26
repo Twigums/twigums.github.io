@@ -23,6 +23,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const theme = localStorage.getItem("theme");
     const is_dark = theme === "dark";
 
+    if (is_dark) {
+        document.documentElement.classList.toggle("dark-mode", is_dark);
+
+    }
+
     function setIcons(is_dark) {
         for (const [id, paths] of Object.entries(icon_map)) {
             const img = document.getElementById(id);
@@ -59,5 +64,4 @@ document.addEventListener("DOMContentLoaded", function () {
         this.innerHTML = "<a href='mailto:" + atob(encoded) + "'>" + atob(encoded) + "</a>";
 
     });
-
 });

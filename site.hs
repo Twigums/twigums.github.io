@@ -40,6 +40,7 @@ main = hakyllWith config $ do
 
     forM_ [
         "images/*",
+        "src/robots.txt",
         "src/css/*",
         "src/js/*"
         ] $ \f -> match f $ do
@@ -64,7 +65,7 @@ main = hakyllWith config $ do
 
             pandocCompiler
                 >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")  indexCtx
+                >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")   indexCtx
                 >>= relativizeUrls
 
     match (fromList [
@@ -76,7 +77,7 @@ main = hakyllWith config $ do
                   gsubRoute "\\.md$" (const "/index.html")
 
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html") defaultContext
+            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")   defaultContext
             >>= relativizeUrls
 
     match (makePattern path_to_blogs "*") $ do
@@ -86,7 +87,7 @@ main = hakyllWith config $ do
         compile $ pandocCompiler
             >>= loadAndApplyTemplate (makeIdentifier path_to_template "blog_post.html")     ctx
             >>= saveSnapshot "content"
-            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")  ctx
+            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")       ctx
             >>= relativizeUrls
 
     create ["sitemap.xml"] $ do
@@ -99,7 +100,7 @@ main = hakyllWith config $ do
                     constField "root" root <>
                     listField "pages" postCtx (return pages)
             makeItem ""
-                >>= loadAndApplyTemplate (makeIdentifier path_to_template "sitemap.xml")   sitemapCtx
+                >>= loadAndApplyTemplate (makeIdentifier path_to_template "sitemap.xml")    sitemapCtx
 
 config :: Configuration
 config = defaultConfiguration

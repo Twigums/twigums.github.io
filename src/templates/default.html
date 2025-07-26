@@ -16,14 +16,6 @@
         $endif$
 
         $partial("src/templates/imports.html")$
-        <script>
-          (function () {
-            const theme = localStorage.getItem("theme");
-            if (theme === "dark") {
-              document.documentElement.classList.add("dark-mode");
-            }
-          })();
-        </script>
 
     </head>
 
@@ -48,15 +40,6 @@
         </main>
 
         $partial("src/templates/footer.html")$
-
-        <script>
-          (function() {
-            const theme = localStorage.getItem('theme');
-            if (theme === 'dark') {
-              document.documentElement.classList.add('dark-mode');
-            }
-          })();
-        </script>
 
         <script src = "/js/main.js"></script>
 

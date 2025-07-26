@@ -1,7 +1,7 @@
 :root {
   --base-color: #f7f3f2;
   --negative-color: #272525;
-  --base-text-color: #161616;
+  --base-text-color: #272525;
   --negative-text-color: #f7f3f2;
   --base-highlight-color: #785ef0;
   --negative-highlight-color: #d4bbff;
@@ -151,6 +151,15 @@ nav a:hover {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+hr {
+  background-color: var(--base-text-color);
+  margin: 2rem 0.5rem;
+}
+
+html.dark-mode hr {
+  background-color: var(--negative-text-color);
+}
+
 #nav-menu {
   display: flex;
   flex-direction: row;
@@ -214,6 +223,11 @@ article .header {
   font-weight: bold;
   color: var(--base-text-color);
   text-decoration: none;
+}
+
+.logo a:hover {
+  background-color: transparent !important;
+  color: inherit;
 }
 
 @media (max-width: 319px) {
