@@ -108,7 +108,9 @@ config = defaultConfiguration
         destinationDirectory = "docs"
     }
 
-titleRoute :: FilePath -> Metadata -> Routes
+--------------------------------------------------------------------------------
+
+--titleRoute :: FilePath -> Metadata -> Routes
 titleRoute parent = constRoute . (fileNameFromTitle parent)
 
 -- turn title into Text, slugify, then convert it back into a string with ".html"
@@ -120,7 +122,6 @@ fileNameFromTitle parent = (parent ++) . T.unpack . (`T.append` ".html") . toSlu
 getTitleFromMeta :: Metadata -> String
 getTitleFromMeta = fromMaybe "no title" . lookupString "title"
 
---------------------------------------------------------------------------------
 postCtx :: Context String
 postCtx =
     constField "root" root <>

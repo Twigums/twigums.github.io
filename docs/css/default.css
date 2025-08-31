@@ -152,12 +152,24 @@ nav a:hover {
 }
 
 hr {
-  background-color: var(--base-text-color);
+  background-color: var(--base-color);
   margin: 2rem 0.5rem;
+  border: none;
+}
+
+hr::before {
+  content: "* * *";
+  display: block;
+  text-align: center;
+  color: var(--base-text-color);
 }
 
 html.dark-mode hr {
-  background-color: var(--negative-text-color);
+  background-color: var(--negative-color);
+}
+
+html.dark-mode hr::before {
+  color: var(--negative-text-color);
 }
 
 #nav-menu {
