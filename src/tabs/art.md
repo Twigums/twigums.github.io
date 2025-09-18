@@ -4,8 +4,4 @@ title: art
 
 # Art Projects
 
-List of art projects.
-
-1. mona lisa
-
-2. tripe shrimp
+- 100 Day Challenge (coming soon): I drew from references every day for 100 days!

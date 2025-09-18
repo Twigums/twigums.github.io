@@ -1,0 +1,6 @@
+---
+title: tech
+---
+
+# Tech Projects
+
