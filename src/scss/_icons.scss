@@ -1,0 +1,48 @@
+.theme-icon--light {
+  fill: var(--base-text-color);
+}
+
+.theme-icon--dark {
+  display: none;
+  fill: var(--negative-text-color);
+}
+
+html.dark-mode .theme-icon--light {
+  display: none;
+}
+
+html.dark-mode .theme-icon--dark {
+  display: block;
+}
+
+.icon-menu {
+  fill: var(--base-text-color);
+}
+
+html.dark-mode .icon-menu {
+  fill: var(--negative-text-color);
+}
+
+.icon-github {
+  fill: var(--base-text-color);
+}
+
+html.dark-mode .icon-github {
+  fill: var(--negative-text-color);
+}
+
+.hakyll-circle {
+  fill: var(--base-text-color);
+}
+
+.hakyll-letter {
+  fill: var(--base-color);
+}
+
+html.dark-mode .hakyll-circle {
+  fill: var(--negative-text-color);
+}
+
+html.dark-mode .hakyll-letter {
+  fill: var(--negative-color);
+}
