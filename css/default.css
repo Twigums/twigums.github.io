@@ -48,8 +48,9 @@
 .dark-mode-container {
   display: flex;
   justify-content: flex-end;
-  padding: -0.5rem ;
+  padding: -0.5rem;
 }
+
 .dark-mode-button {
   background: none;
   border: none;
@@ -273,7 +274,6 @@ article .header {
     transition: background-color 0s, color 0s;
   }
 }
-
 @media (min-width: 320px) {
   body {
     width: 90%;
@@ -309,7 +309,6 @@ article .header {
     transition: background-color 0s, color 0s;
   }
 }
-
 @media (min-width: 1200px) {
   body {
     width: 62%;
@@ -341,7 +340,6 @@ article .header {
     font-size: 1.8rem;
   }
 }
-
 @media (max-width: 750px) {
   .hamburger {
     display: block;
@@ -349,7 +347,6 @@ article .header {
     top: 1.5rem;
     right: 1.5rem;
   }
-
   #nav-menu {
     display: none;
     flex-direction: column;
@@ -364,21 +361,17 @@ article .header {
     max-width: 250px;
     z-index: 1000;
   }
-
   html.dark-mode #nav-menu {
     background: var(--negative-color);
     border: 1px solid var(--negative-text-color);
   }
-
   #nav-menu.active {
     display: flex;
   }
-
   nav a {
     display: block;
     margin: 0.5rem 0;
   }
-
   nav a::after {
     content: "";
   }
