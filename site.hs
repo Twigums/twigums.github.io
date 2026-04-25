@@ -8,6 +8,7 @@ import              System.FilePath ((</>))
 
 import              Hakyll
 import              Slug (toSlug)
+import              Compilers (sassCompiler, tsCompiler)
 
 --------------------------------------------------------------------------------
 root :: String
@@ -40,12 +41,23 @@ main = hakyllWith config $ do
 
     forM_ [
         "images/*",
-        "src/robots.txt",
-        "src/css/*",
-        "src/js/*"
+        "src/robots.txt"
         ] $ \f -> match f $ do
         route   $ gsubRoute "src/" (const "")
         compile copyFileCompiler
+
+    scssPartialDep <- makePatternDependency "src/scss/_*.scss"
+    match "src/scss/_*.scss" $ compile getResourceBody
+    rulesExtraDependencies [scssPartialDep] $
+        match "src/scss/default.scss" $ do
+            route   $ constRoute "css/default.css"
+            compile sassCompiler
+
+    tsPartialDep <- makePatternDependency "src/ts/*.ts"
+    rulesExtraDependencies [tsPartialDep] $
+        match "src/ts/main.ts" $ do
+            route   $ constRoute "js/main.js"
+            compile tsCompiler
 
     match "src/tabs/home.md" $ do
         route   $ constRoute "index.html"

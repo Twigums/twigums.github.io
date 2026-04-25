@@ -1,4 +1,4 @@
-name: Build and Deploy (on separate branch)
+name: Build and Generate (on `docs` branch)
 
 on:
   push:
@@ -37,11 +37,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-stack-work-
 
+    - name: Install npm dependencies
+      run: npm install
+
     - name: Build app
-      run: stack build --system-ghc
+      run: npm run setup # runs stack
 
     - name: Generate site
-      run: stack exec --system-ghc site build
+      run: npm run rebuild
 
     - name: Deploy to branch
       uses: peaceiris/actions-gh-pages@v4

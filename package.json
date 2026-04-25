@@ -1,0 +1,16 @@
+{
+  "name": "twigums",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup": "npm install && stack build --system-ghc",
+    "build": "stack exec --system-ghc site -- build",
+    "rebuild": "stack exec --system-ghc site -- rebuild",
+    "watch": "stack exec --system-ghc site -- watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "sass": "^1.86.0",
+    "typescript": "^5.7.3"
+  }
+}
