@@ -21,6 +21,13 @@
   </url>
 
   <url>
+    <loc>https://twigums.github.io/about/index.html</loc>
+    <lastmod></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://twigums.github.io/art/index.html</loc>
     <lastmod></lastmod>
     <changefreq>weekly</changefreq>
@@ -29,13 +36,6 @@
 
   <url>
     <loc>https://twigums.github.io/blog/index.html</loc>
-    <lastmod></lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://twigums.github.io/contact/index.html</loc>
     <lastmod></lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
