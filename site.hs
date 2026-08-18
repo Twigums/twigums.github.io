@@ -14,30 +14,37 @@ import              Compilers (sassCompiler, tsCompiler)
 root :: String
 root = "https://twigums.github.io"
 
-path_to_template :: FilePath
-path_to_template = "src/templates/"
+dirSrc :: FilePath
+dirSrc = "src"
 
-path_to_blogs :: FilePath
-path_to_blogs = "src/blogs"
+dirTemplates, dirBlogs, dirTab :: FilePath
+dirTemplates = dirSrc </> "templates"
+dirBlogs = dirSrc </> "blogs"
+dirTab = dirSrc </> "tabs"
 
-path_to_tabs :: [FilePath]
-path_to_tabs = [
-    "src/tabs/home.md",
-    "src/tabs/tech.md",
-    "src/tabs/art.md",
-    "src/tabs/blog.md",
-    "src/tabs/contact.md"
-    ]
+templateDefault, templateBlog, templateSitemap :: Identifier
+templateDefault = fromFilePath $ dirTemplates </> "default.html"
+templateBlog = fromFilePath $ dirTemplates </> "blog_post.html"
+templateSitemap = fromFilePath $ dirTemplates </> "sitemap.xml"
 
-makePattern :: FilePath -> FilePath -> Pattern
-makePattern path1 path2 = fromGlob (path1 </> path2)
+tabHome, tabTech, tabArt, tabBlog, tabAbout :: Pattern
+tabHome = fromGlob $ dirTab </> "home.md"
+tabTech = fromGlob $ dirTab </> "tech.md"
+tabArt = fromGlob $ dirTab </> "art.md"
+tabBlog = fromGlob $ dirTab </> "blog.md"
+tabAbout = fromGlob $ dirTab </> "about.md"
 
-makeIdentifier :: FilePath -> FilePath -> Identifier
-makeIdentifier path1 path2 = fromFilePath (path1 </> path2)
+blogs :: Pattern
+blogs = fromGlob $ dirBlogs </> "*"
+
+routeTab :: Routes
+routeTab =
+    gsubRoute (dirTab <> "/") (const "") `composeRoutes`
+    gsubRoute "\\.md$" (const "/index.html")
 
 main :: IO ()
 main = hakyllWith config $ do
-    match (makePattern path_to_template "*") $ compile templateBodyCompiler
+    match (fromGlob $ dirTemplates </> "*") $ compile templateBodyCompiler
 
     forM_ [
         "images/*",
@@ -59,60 +66,63 @@ main = hakyllWith config $ do
             route   $ constRoute "js/main.js"
             compile tsCompiler
 
-    match "src/tabs/home.md" $ do
+    match tabHome $ do
         route   $ constRoute "index.html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")   defaultContext
+            >>= loadAndApplyTemplate templateDefault ctxSite
             >>= relativizeUrls
 
-    match "src/tabs/blog.md" $ do
-        route   $ gsubRoute "src/tabs/" (const "") `composeRoutes`
-                  gsubRoute "\\.md$" (const "/index.html")
-
+    match tabBlog $ do
+        route   $ routeTab
         compile $ do
-            blogs <- recentFirst =<< loadAll (makePattern path_to_blogs "*")
-            let indexCtx =
-                    listField "blogs" postCtx (return blogs) <>
-                    defaultContext
+            posts <- recentFirst =<< loadAll blogs
+            let ctxIndex =
+                    listField "blogs" ctxPosts (return posts) <>
+                    ctxSite
 
             pandocCompiler
-                >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")   indexCtx
+                >>= applyAsTemplate ctxIndex
+                >>= loadAndApplyTemplate templateDefault ctxIndex
                 >>= relativizeUrls
 
-    match (fromList [
-        "src/tabs/tech.md",
-        "src/tabs/art.md",
-        "src/tabs/contact.md"
-        ]) $ do
-        route   $ gsubRoute "src/tabs/" (const "") `composeRoutes` 
-                  gsubRoute "\\.md$" (const "/index.html")
-
+    match (
+        tabTech
+        .||. tabArt
+        .||. tabAbout
+        ) $ do
+        route   $ routeTab
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")   defaultContext
+            >>= loadAndApplyTemplate templateDefault ctxSite
             >>= relativizeUrls
 
-    match (makePattern path_to_blogs "*") $ do
-        let ctx = constField "type" "article" <> postCtx
+    match blogs $ do
+        let ctx = constField "type" "article" <> ctxPosts
 
         route   $ metadataRoute (titleRoute "blogs/")
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate (makeIdentifier path_to_template "blog_post.html")     ctx
+            >>= loadAndApplyTemplate templateBlog ctx
             >>= saveSnapshot "content"
-            >>= loadAndApplyTemplate (makeIdentifier path_to_template "default.html")       ctx
+            >>= loadAndApplyTemplate templateDefault ctx
             >>= relativizeUrls
 
     create ["sitemap.xml"] $ do
         route idRoute
         compile $ do
-            blogs <- recentFirst =<< loadAll (makePattern path_to_blogs "*")
-            singlePages <- loadAll (fromList $ map (makeIdentifier "") path_to_tabs)
-            let pages = blogs <> singlePages
-                sitemapCtx =
+            posts <- recentFirst =<< loadAll blogs
+            singlePages <- loadAll (
+                tabHome
+                .||. tabTech
+                .||. tabArt
+                .||. tabBlog
+                .||. tabAbout
+                )
+            let pages = posts <> singlePages
+                ctxSitemap =
                     constField "root" root <>
-                    listField "pages" postCtx (return pages)
+                    listField "pages" ctxPosts (return pages) <>
+                    ctxSite
             makeItem ""
-                >>= loadAndApplyTemplate (makeIdentifier path_to_template "sitemap.xml")    sitemapCtx
+                >>= loadAndApplyTemplate templateSitemap ctxSitemap
 
 config :: Configuration
 config = defaultConfiguration
@@ -122,7 +132,7 @@ config = defaultConfiguration
 
 --------------------------------------------------------------------------------
 
---titleRoute :: FilePath -> Metadata -> Routes
+titleRoute :: FilePath -> Metadata -> Routes
 titleRoute parent = constRoute . (fileNameFromTitle parent)
 
 -- turn title into Text, slugify, then convert it back into a string with ".html"
@@ -134,8 +144,13 @@ fileNameFromTitle parent = (parent ++) . T.unpack . (`T.append` ".html") . toSlu
 getTitleFromMeta :: Metadata -> String
 getTitleFromMeta = fromMaybe "no title" . lookupString "title"
 
-postCtx :: Context String
-postCtx =
+ctxSite :: Context String
+ctxSite =
+    constField "path" "" <>
+    defaultContext
+
+ctxPosts :: Context String
+ctxPosts =
     constField "root" root <>
     dateField "date" "%B %e, %Y" <>
-    defaultContext
+    ctxSite

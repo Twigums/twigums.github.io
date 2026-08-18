@@ -16,6 +16,12 @@
   font-style: normal;
 }
 
+.acari-sans-neue-base {
+  font-family: "AcariSansNeueRegular", sans-serif;
+  font-weight: 550;
+  font-style: normal;
+}
+
 .atkinson-hyperlegible-regular {
   font-family: "Atkinson Hyperlegible", sans-serif;
   font-weight: 550;
@@ -66,7 +72,7 @@ body {
   font-size: 1rem;
   color: var(--base-text-color);
   background-color: var(--base-color);
-  font-family: "JetBrains Mono";
+  font-family: "AcariSansNeueRegular";
 }
 
 html.dark-mode {
@@ -214,7 +220,6 @@ footer a:hover {
 footer {
   margin-top: 3rem;
   padding: 1.2rem 0;
-  border-top: 0.1rem solid var(--base-text-color);
   font-size: 1.2rem;
 }
 
@@ -246,6 +251,34 @@ article .header {
   background-color: transparent !important;
   color: inherit;
 }
+
+.home-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+
+  padding: 1.2rem;
+  z-index: 10;
+}
+
+.home-footer img {
+  height: 1.5rem;
+  opacity: 0.65;
+  transition: opacity 0.2s, transform 0.3s;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+html.dark-mode .home-footer img {
+    filter: invert(1);
+  }
 
 @media (max-width: 319px) {
   body {
