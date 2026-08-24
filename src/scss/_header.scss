@@ -1,0 +1,41 @@
+header {
+  border-bottom: 0.1rem solid var(--base-text-color);
+  position: relative;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+nav a {
+  font-size: 2rem;
+  color: var(--base-text-color);
+  text-decoration: none;
+  text-transform: lowercase;
+  position: relative;
+  padding: 0 0.1rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  right: -0.5rem;
+  bottom: 0;
+  width: 0.1rem;
+  height: 0.5em;
+  background-color: currentColor;
+  pointer-events: none;
+}
+
+nav a:last-child::after {
+  display: none;
+}
+
+nav a:hover {
+  background-color: var(--base-highlight-color);
+  color: var(--negative-text-color);
+}
+

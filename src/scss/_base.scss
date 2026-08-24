@@ -1,0 +1,108 @@
+.jetbrains-mono-base {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 550;
+  font-style: normal;
+}
+
+.acari-sans-neue-base {
+  font-family: "AcariSansNeueRegular", sans-serif;
+  font-weight: 550;
+  font-style: normal;
+}
+
+.atkinson-hyperlegible-regular {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 550;
+  font-style: normal;
+}
+
+.atkinson-hyperlegible-bold {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.atkinson-hyperlegible-regular-italic {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 550;
+  font-style: italic;
+}
+
+.atkinson-hyperlegible-bold-italic {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dark-mode-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: -0.5rem ;
+}
+.dark-mode-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font-size: 1rem;
+  color: var(--base-text-color);
+  background-color: var(--base-color);
+  font-family: "AcariSansNeueRegular";
+}
+
+html.dark-mode {
+  background: var(--negative-color);
+  color: var(--negative-text-color);
+}
+
+html.dark-mode header {
+  border-bottom: 0.1rem solid var(--negative-text-color);
+}
+
+html.dark-mode body {
+  background-color: var(--negative-color);
+  color: var(--negative-text-color);
+}
+
+html.dark-mode nav a,
+html.dark-mode nav a::after {
+  color: var(--negative-text-color);
+}
+
+html.dark-mode nav a:hover,
+html.dark-mode mark {
+  background-color: var(--negative-highlight-color);
+  color: var(--base-text-color);
+}
+
+html.dark-mode a {
+  color: var(--negative-highlight-color);
+  text-decoration-color: var(--negative-highlight-color);
+}
+
+html.dark-mode a:hover {
+  color: var(--base-text-color);
+  text-decoration-color: var(--base-text-color);
+  background-color: var(--negative-highlight-color);
+}
+
+a:hover {
+  color: var(--negative-text-color);
+  text-decoration-color: var(--negative-text-color);
+  background-color: var(--base-highlight-color);
+}
+
